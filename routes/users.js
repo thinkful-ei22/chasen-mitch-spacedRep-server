@@ -1,38 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const {dbGet} = require('../db-mongoose'); 
-const {User, hashPassword} = require('../models/user');
+const User = require('../models/user');
 const emailValidator = require('email-validator');
-
-// // GET all users
-// router.get('/', (req, res, next) => {
-//   dbGet().select('id', 'username', 'email')
-//     .from('users')
-//     .then(results => {
-//       res.json(results);
-//     })
-//     .catch(err => next(err));
-// });
-
-// // GET user by ID
-// router.get('/:id', (req, res, next) => {
-//   const {id} = req.params;
-//   dbGet().select('id', 'username', 'email')
-//     .from('users').where('id', id)
-//     .then(([user]) => {
-//       if(user) {
-//         res.json(user);
-//       } else {
-//         next();
-//       }
-//     })
-//     .catch(err => next(err));
-// });
 
 // POST to create a user
 router.post('/', (req, res, next) => {
   let {firstName, username, password, email} = req.body;
-  const requiredFields = ['username', 'password', 'email'];
+  const requiredFields = ['firstName', 'username', 'password', 'email'];
   const missingField = requiredFields.find(field => !(field in req.body));
 
   if (missingField) {
@@ -73,7 +47,7 @@ router.post('/', (req, res, next) => {
       min: 5
     },
     password: {
-      min: 8,
+      min: 10,
       max: 72
     }
   };
@@ -107,9 +81,7 @@ router.post('/', (req, res, next) => {
     });
   }
 
-  let digest;
-
-  User.find({username}).count().then(count => {
+  User.find({username}).countDocuments().then(count => {
     if(count > 0){
       return Promise.reject({
         code: 400,
@@ -120,12 +92,11 @@ router.post('/', (req, res, next) => {
     }
     return User.hashPassword(password);
   })
-    .then((_digest) => { 
-      digest = _digest;
-      const newUser = { firstName, username, email, password: digest };
+    .then((digest) => { 
+      const newUser = {firstName, username, email, password: digest};
       return User.create(newUser);
     })
-    .then(result => {res.status(201).loction(`/api/users/${result.id}`).json(result);})
+    .then(result => {res.status(201).location(`/api/users/${result.id}`).json(result);})
     .catch(err => {
       if (err.reason === 'ValidationError') {
         return res.status(err.code).json(err);

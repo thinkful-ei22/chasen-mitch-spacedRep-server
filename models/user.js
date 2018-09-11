@@ -2,7 +2,7 @@ const {dbGet} = require('../db-mongoose.js');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new dbGet().Schema({
-  firstName: 'string',
+  firstName: {type:String, required:true},
   username: {type:String, required:true, unique:true},
   password: {type:String, required:true},
   email: {type:String, required:true},

@@ -2,8 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const passport = require('passport');
-const {localStrategy} = require('./passport/local');
-const {jwtStrategy} = require('./passport/jwt');
+const localStrategy = require('./passport/local');
+const jwtStrategy = require('./passport/jwt');
 const {PORT, CLIENT_ORIGIN} = require('./config');
 const {dbConnect} = require('./db-mongoose');
 const authRouter = require('./routes/auth');
@@ -31,10 +31,10 @@ app.use(
 app.use(express.json());
 
 // Passport Strategies
-passport.use(localStrategy);
+passport.use('local', localStrategy);
 passport.use(jwtStrategy);
-// Mount Routers
 
+// Mount Routers
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
 
@@ -47,11 +47,11 @@ app.use((req, res, next) => {
 
 // Custom Error Handler
 app.use((err, req, res, next) => {
+  console.log(err, 'something is wrong', err.status, err.message);
   if(err.status) {
     const errBody = Object.assign({}, err, { message: err.message });
     res.status(err.status).json(errBody);
   } else {
-    console.error(err);
     res.status(500).json({ message: 'Internal Server Error '});
   }
 });

@@ -1,13 +1,14 @@
-const {Strategy: LocalStrategy} = require('passport-local');
-const {dbGet} = require('../db-mongoose');
-const validatePassword = require('../models/user');
+'use strict';
+
+const { Strategy: LocalStrategy } = require('passport-local');
+const User = require('../models/user');
 
 // Define and create basicStrategy
 const localStrategy = new LocalStrategy((username, password, done) => {
   let user;
-  dbGet().select().from('users').where('username', username)
-    .then(([_user]) => {
-      user = _user;
+  User.findOne({ username })
+    .then(results => {
+      user = results;
       if (!user) {
         return Promise.reject({
           reason: 'LoginError',
@@ -15,7 +16,7 @@ const localStrategy = new LocalStrategy((username, password, done) => {
           location: 'username'
         });
       }
-      return validatePassword(password);
+      return user.validatePassword(password);
     })
     .then(isValid => {
       if (!isValid) {
@@ -29,10 +30,10 @@ const localStrategy = new LocalStrategy((username, password, done) => {
     })
     .catch(err => {
       if (err.reason === 'LoginError') {
-        return done(null, false, err);
+        return done(null, false);
       }
-      return done(err, false);
+      return done(err);
     });
 });
 
-module.exports = {localStrategy};
+module.exports = localStrategy;

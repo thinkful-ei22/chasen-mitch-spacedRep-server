@@ -4,7 +4,6 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const {JWT_SECRET,JWT_EXPIRY} = require('../config');
 const options = {session: false, failWithError: true};
-const bodyParser = require('body-parser');
 
 // Create auth token
 const createAuthToken = user => {
@@ -19,9 +18,8 @@ const createAuthToken = user => {
 const localAuth = passport.authenticate('local', options);
 // Use JWT Auth
 const jwtAuth = passport.authenticate('jwt', {session: false});
-router.use(bodyParser.json());
 // POST Protected Login endpoint
-router.post('/', localAuth, (req, res) => {
+router.post('/login', localAuth, (req, res) => {
   const authToken = createAuthToken(req.user);
   return res.json({authToken});
 });
