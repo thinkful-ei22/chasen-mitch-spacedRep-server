@@ -2,10 +2,11 @@ const {dbGet} = require('../db-mongoose.js');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new dbGet().Schema({
-  fullname: String,
-  username: {type: String, required: true, unique: true},
-  password: {type: String, required: true},
-  progress: {type: Number, default: 0}
+  firstName: 'string',
+  username: {type:String, required:true, unique:true},
+  password: {type:String, required:true},
+  email: {type:String, required:true},
+  progress: {type:Number,default:0}
 });
 
 userSchema.methods.validatePassword = function (password) {
@@ -29,4 +30,4 @@ userSchema.set('toObject', {
   }
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = dbGet().model('User', userSchema);

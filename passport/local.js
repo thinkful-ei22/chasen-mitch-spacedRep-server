@@ -1,6 +1,6 @@
 const {Strategy: LocalStrategy} = require('passport-local');
-const {dbGet} = require('../db-knex');
-const validatePassword = require('../models/users');
+const {dbGet} = require('../db-mongoose');
+const validatePassword = require('../models/user');
 
 // Define and create basicStrategy
 const localStrategy = new LocalStrategy((username, password, done) => {
@@ -18,7 +18,7 @@ const localStrategy = new LocalStrategy((username, password, done) => {
       return validatePassword(password);
     })
     .then(isValid => {
-      if (!isValid => {
+      if (!isValid) {
         return Promise.reject({
           reason: 'LoginError',
           message: 'Incorrect password',
@@ -26,12 +26,12 @@ const localStrategy = new LocalStrategy((username, password, done) => {
         });
       }
       return done(null, user);
-      })
-      .catch(err => {
-        if (err.reason === 'LoginError') {
-          return done(null, false, err);
-        }
-        return done(err, false);
+    })
+    .catch(err => {
+      if (err.reason === 'LoginError') {
+        return done(null, false, err);
+      }
+      return done(err, false);
     });
 });
 

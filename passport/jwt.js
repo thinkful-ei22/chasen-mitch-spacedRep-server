@@ -3,7 +3,7 @@ const {JWT_SECRET} = require('../config');
 
 const options = {
   secretOrKey: JWT_SECRET,
-  jwtFromRequest: ExtractJwt.fromAuth.fromAuthHeaderWithScheme('Bearer'),
+  jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
   algorithms: ['HS256']
 };
 
