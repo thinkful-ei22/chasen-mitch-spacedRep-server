@@ -72,22 +72,20 @@ router.post('/', (req, res, next) => {
         user.head = question.next;
       }
 
-      let search = question.next + question.memValue;
-
-      for (let i = 0; i < user.questions.length; i ++) {
-        if (user.questions[i].next === search) {
-          user.questions[i].next = 0;
-          question.next = search;
+      let currentQuestion = question;
+      for (let i = 0; i < question.memValue; i++) {
+        const nextIndex = currentQuestion.next;
+        if (nextIndex === null) {
+          break;
         }
+        currentQuestion = user.questions[nextIndex];
       }
+      question.next = currentQuestion.next;
+      currentQuestion.next = index;
+      return user.save();
+    })
+    .then(() => res.status(200).json({}));
 
-      user.save(function (err) {
-        if(err) {
-          next(err);
-        }
-        res.json({question});
-      });
-    });
 });
 
 module.exports = router;
