@@ -8,6 +8,7 @@ const {PORT, CLIENT_ORIGIN} = require('./config');
 const {dbConnect} = require('./db-mongoose');
 const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
+const questionsRouter = require('./routes/questions');
 
 
 // Create an Express application
@@ -37,6 +38,7 @@ passport.use(jwtStrategy);
 // Mount Routers
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/questions', questionsRouter);
 
 // Custom 404 Not Found route handler
 app.use((req, res, next) => {

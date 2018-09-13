@@ -8,10 +8,11 @@ const userSchema = new dbGet().Schema({
   email: {type:String, required:true},
   progress: {type:Number,default:0},
   questions: [{
-    question: {type:dbGet().Schema.Types.ObjectId, ref: 'Question'},
+    qData: {type:dbGet().Schema.Types.ObjectId, ref: 'Question'},
     memValue: {type:Number, default:1},
     next: {type:Number},
-    attempts: {type:Number, default:0}
+    attempts: {type:Number, default:0},
+    solved: {type:Boolean, default:false}
   }],
   head:{type:Number, default:0}
   // questions: {type:Array} - within the array have 

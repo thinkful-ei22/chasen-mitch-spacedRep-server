@@ -92,15 +92,13 @@ router.post('/', (req, res, next) => {
     });
     return questionMap;
   })
-    .then(questions => _questions = questions.map(question => ({question: question})))
+    .then(questions => _questions = questions.map(question => ({qData: question})))
     // how do we remove extra _id value???
     .then(() => {
       for(let i=0; i < _questions.length; i++){
         if (i === _questions.length-1) {
-          _questions[i].memValue = 9;
-          _questions[i].next = 0;
+          _questions[i].next = null;
         } else {
-          _questions[i].memValue = i;
           _questions[i].next = i+1;
         }
       }
