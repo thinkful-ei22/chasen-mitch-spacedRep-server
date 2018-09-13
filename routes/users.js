@@ -90,10 +90,10 @@ router.post('/', (req, res, next) => {
     questions.forEach(function(question) {
       questionMap[question._id] = question;
     });
-    console.log(questionMap);
     return questionMap;
   })
     .then(questions => _questions = questions.map(question => ({question: question})))
+    // how do we remove extra _id value???
     .then(() => {
       for(let i=0; i < _questions.length; i++){
         if (i === _questions.length-1) {
@@ -122,42 +122,6 @@ router.post('/', (req, res, next) => {
       }
       next(err);
     });
-
-  // let user = {};
-  // const userPromise = User.hashPassword(password)
-  //   .then(digest => {
-  //     const newUser = {firstName, username, email, password: digest};
-  //     return User.create(newUser);
-  //   });
-  // const questionPromise = Question.find();
-
-  // return Promise.all([userPromise, questionPromise])
-  //   .then(([user, questions]) => {
-  //     const qObj = {questions: []};
-  //     console.log('user:', user);
-  //     for(let i=0; i < questions.length; i++) {
-  //       qObj.questions.push({
-  //         questionId: questions[i].id,
-  //         next: (i + 1) % questions.length
-  //       });
-  //     }
-  //     return User.findByIdAndUpdate(user.id, qObj, {new: true});
-  //   })
-  //   .then(newUser => {
-  //     user = newUser;
-  //     return res.location(`${req.originalUrl}/${user.id}`).status(201).json(user);
-  //   })
-  //   .catch(err => {
-  //     if (err.code === 11000) {
-  //       err = new Error('Username already taken');
-  //       err.status = 422;
-  //       err.reason = 'ValidationError';
-  //       err.location = 'username';
-  //     }
-  //     next(err);
-  //   });
-
-
 });
 
 module.exports = router;
