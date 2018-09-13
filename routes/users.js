@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
+const Question = require('../models/question');
 const emailValidator = require('email-validator');
 
 // POST to create a user
@@ -81,28 +82,82 @@ router.post('/', (req, res, next) => {
     });
   }
 
-  User.find({username}).countDocuments().then(count => {
-    if(count > 0){
-      return Promise.reject({
-        code: 400,
-        reason: 'ValidationError',
-        message: `Username of ${username} already exists, try again`,
-        location: 'username'
-      });
-    }
-    return User.hashPassword(password);
+  let _questions;
+
+  Question.find({}, function(err, questions) {
+    let questionMap = {};
+
+    questions.forEach(function(question) {
+      questionMap[question._id] = question;
+    });
+    console.log(questionMap);
+    return questionMap;
   })
-    .then((digest) => { 
-      const newUser = {firstName, username, email, password: digest};
+    .then(questions => _questions = questions.map(question => ({question: question})))
+    .then(() => {
+      for(let i=0; i < _questions.length; i++){
+        if (i === _questions.length-1) {
+          _questions[i].memValue = 9;
+          _questions[i].next = 0;
+        } else {
+          _questions[i].memValue = i;
+          _questions[i].next = i+1;
+        }
+      }
+      return User.hashPassword(password);
+    })
+    .then(digest => {
+      const newUser = {firstName, username, email, questions: _questions, password: digest}; 
       return User.create(newUser);
     })
-    .then(result => {res.status(201).location(`/api/users/${result.id}`).json(result);})
+    .then(result => {
+      return res.status(201).location(`/api/users/${result.id}`).json(result);
+    })
     .catch(err => {
-      if (err.reason === 'ValidationError') {
-        return res.status(err.code).json(err);
+      if (err.code === 11000) {
+        err = new Error('Username already taken');
+        err.status = 422;
+        err.reason = 'ValidationError';
+        err.location = 'username';
       }
       next(err);
     });
+
+  // let user = {};
+  // const userPromise = User.hashPassword(password)
+  //   .then(digest => {
+  //     const newUser = {firstName, username, email, password: digest};
+  //     return User.create(newUser);
+  //   });
+  // const questionPromise = Question.find();
+
+  // return Promise.all([userPromise, questionPromise])
+  //   .then(([user, questions]) => {
+  //     const qObj = {questions: []};
+  //     console.log('user:', user);
+  //     for(let i=0; i < questions.length; i++) {
+  //       qObj.questions.push({
+  //         questionId: questions[i].id,
+  //         next: (i + 1) % questions.length
+  //       });
+  //     }
+  //     return User.findByIdAndUpdate(user.id, qObj, {new: true});
+  //   })
+  //   .then(newUser => {
+  //     user = newUser;
+  //     return res.location(`${req.originalUrl}/${user.id}`).status(201).json(user);
+  //   })
+  //   .catch(err => {
+  //     if (err.code === 11000) {
+  //       err = new Error('Username already taken');
+  //       err.status = 422;
+  //       err.reason = 'ValidationError';
+  //       err.location = 'username';
+  //     }
+  //     next(err);
+  //   });
+
+
 });
 
 module.exports = router;

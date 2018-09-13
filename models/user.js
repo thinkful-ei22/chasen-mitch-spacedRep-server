@@ -6,7 +6,21 @@ const userSchema = new dbGet().Schema({
   username: {type:String, required:true, unique:true},
   password: {type:String, required:true},
   email: {type:String, required:true},
-  progress: {type:Number,default:0}
+  progress: {type:Number,default:0},
+  questions: [{
+    question: {type:dbGet().Schema.Types.ObjectId, ref: 'Question'},
+    memValue: {type:Number, default:1},
+    next: {type:Number},
+    attempts: {type:Number, default:0}
+  }],
+  head:{type:Number, default:0}
+  // questions: {type:Array} - within the array have 
+  // seperate question schema to store initial setup questions
+  // when a user registers -> take the questions from the questionschema
+  // load the users questions with the ones from questionschema
+  // when user logs in -> use the user collection because that has all
+  // of the questions within it.
+  // mimic the linked list in the array and use it as linked list
 });
 
 userSchema.methods.validatePassword = function (password) {
