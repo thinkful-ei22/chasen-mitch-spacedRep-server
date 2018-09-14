@@ -51,11 +51,11 @@ router.get('/progress', (req, res, next) => {
     .populate('questions.qData')
     .then(user => {
       let solved = user.questions.map(a => a.solved);
-      let questions = user.questions.map(a => a.qData.question);
-      let newObj = {};
-      questions.forEach((question, i) => newObj[question] = solved[i]);
-      console.log(newObj);
-      res.json(newObj);
+      //let questions = user.questions.map(a => a.qData.question);
+      //let newObj = {};
+      //questions.forEach((question, i) => newObj[question] = solved[i]);
+      console.log(solved);
+      res.json(solved);
     })
     .catch(err => {
       next(err);
