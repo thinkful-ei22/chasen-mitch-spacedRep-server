@@ -43,6 +43,25 @@ router.get('/all', (req, res, next) => {
     });
 });
 
+// get all questions
+router.get('/progress', (req, res, next) => {
+  const userId = req.user.id;
+
+  User.findById(userId)
+    .populate('questions.qData')
+    .then(user => {
+      let solved = user.questions.map(a => a.solved);
+      let questions = user.questions.map(a => a.qData.question);
+      let newObj = {};
+      questions.forEach((question, i) => newObj[question] = solved[i]);
+      console.log(newObj);
+      res.json(newObj);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
 router.post('/', (req, res, next) => {
   // extract from request
   const {guess} = req.body;
