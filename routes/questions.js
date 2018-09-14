@@ -82,6 +82,7 @@ router.post('/', (req, res, next) => {
         question.memValue *= 2;
         feedback = true;
       } else {
+        question.solved = false;
         question.memValue = 1;
         feedback = false;
       }
