@@ -1,52 +1,52 @@
 [
   {
-    "question": "1",
-    "answer": "a",
-    "explanation": "z"
+    "question": "_________ is a method of solving problems that involves a function calling itself.",
+    "answer": "recursion",
+    "explanation": "In each call, it breaks down the problem into smaller and smaller subproblems until you get to a small enough problem that it can be solved trivially. You can think of it as the process of defining a problem (or the solution to a problem) in terms of (a simpler version of) itself. It may be applied to several data structures and algorithms to solve problems, but by itself is not a data structure or an algorithm, it is a concept."
   },
   {
-    "question": "2",
-    "answer": "b",
-    "explanation": "z"
+    "question": "An _________ is a clearly defined set of instructions to solve a problem.",
+    "answer": "algorithm",
+    "explanation": "For any given problem, there are usually a range of possible solutions, and we can compare the performance of competing solutions to the problem. Performance can be analyzed in terms of space or time. Space complexity refers to the amount of physical memory that it  requires to complete."
   },
   {
-    "question": "3",
-    "answer": "c",
-    "explanation": "z"
+    "question": "______________ is a way of describing the run-time complexity of an algorithm. ",
+    "answer": "big o notation",
+    "explanation": "We use it to say how much time is needed for an algorithm to complete its work with a given input. This is important knowledge because an algorithm that is quick enough on a small input size may take so long as to be unusable on a larger input. It can help us understand how a given algorithm will perform in the best case scenario, in the worst case scenario, and on average."
   },
   {
-    "question": "4",
-    "answer": "d",
-    "explanation": "z"
+    "question": "______ are an ordered sequence of data (plus potentially empty spaces).",
+    "answer": "arrays",
+    "explanation": "This maps very well onto the concept of memory. You could store the first value in an one in one box, the second value in the next box, and so on. And this is how it works in real-life. The data is stored in contiguous memory. That means that all of the data is stored in order at subsequent memory addresses. And it is this property which gives ______ their performance characteristics."
   },
   {
-    "question": "5",
-    "answer": "e",
-    "explanation": "z"
+    "question": "A ___________ is a linear data structure where each element is a separate object.",
+    "answer": "linked list",
+    "explanation": "Each element (we will call it a node) of a list is comprising of two items - the data and a reference to the next node. The last node has a reference to null. The entry point is called the head. It should be noted that head is not a separate node, but the reference to the first node. If the list is empty then the head is a null reference."
   },
   {
-    "question": "6",
-    "answer": "f",
-    "explanation": "z"
+    "question": "A _____ is a data structure similar to a list with access restricted to only one end.",
+    "answer": "stack",
+    "explanation": "It stores elements in a LIFO (Last In First Out) order. ______ are usually thought of vertical data structures, unlike lists and arrays which are horizontal. Hence the first and the only directly accessible item is referred to as top."
   },
   {
-    "question": "7",
-    "answer": "g",
-    "explanation": "z"
+    "question": "A _____ is a type of list where data is inserted at the end and is removed from the front. ",
+    "answer": "queue",
+    "explanation": "A _____ is a data structure that models a FIFO (First In First Out) operation. ______ are used to store data in the order in which they occur, as opposed to a stack, in which the last piece of data entered is the first element used for processing."
   },
   {
-    "question": "8",
-    "answer": "h",
-    "explanation": "z"
+    "question": "_________ are unordered associations between keys and values.",
+    "answer": "hash maps",
+    "explanation": "The underlying storage is an array. Each key/value pair is stored within one of the arrays slots. The clever part is working out which slot to store the pair in. In order to do this you use a function. This takes a value (a string for the purposes of this assignment), and converts it into a number. The number will then be used as an index into the array. Any input should have an almost equal chance of being any output index, so the pairs are evenly distributed across the array."
   },
   {
-    "question": "9",
-    "answer": "i",
-    "explanation": "z"
+    "question": "A __________________ is made of nodes, where each node contains a left reference, a right reference, and a data element. The topmost node is called the root.",
+    "answer": "binary search tree",
+    "explanation": "Every node (excluding a root) is connected by a directed edge from exactly one other node. This node is called a parent. On the other hand, each node can be connected to arbitrary number of nodes, called children. Nodes with no children are called leaves, or external nodes. Nodes which are not leaves are called internal nodes. Nodes with the same parent are called siblings."
   },
   {
-    "question": "10",
-    "answer": "j",
-    "explanation": "z"
+    "question": "_________________ is a learning technique that incorporates increasing intervals of time between subsequent review of previously learned material in order to exploit the psychological spacing effect.",
+    "answer": "spaced repetition",
+    "explanation": "Although the principle is useful in many contexts, it is commonly applied in contexts in which a learner must acquire a large number of items and retain them indefinitely in memory. It is, therefore, well suited for the problem of vocabulary acquisition in the course of second language learning, due to the size of the target language's inventory of open-class words."
   }
 ] 
