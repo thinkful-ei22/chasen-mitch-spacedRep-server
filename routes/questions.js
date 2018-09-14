@@ -54,7 +54,6 @@ router.get('/progress', (req, res, next) => {
       //let questions = user.questions.map(a => a.qData.question);
       //let newObj = {};
       //questions.forEach((question, i) => newObj[question] = solved[i]);
-      console.log(solved);
       res.json(solved);
     })
     .catch(err => {
@@ -119,7 +118,10 @@ router.post('/reset', (req, res, next) => {
       });
       return user.save();
     })
-    .then(() => res.status(200).json({}));
+    .then(user => {
+      let solved = user.questions.map(a => a.solved);
+      res.status(200).json(solved);
+    });
 });
 
 module.exports = router;
