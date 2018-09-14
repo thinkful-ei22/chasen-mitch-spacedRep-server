@@ -107,4 +107,19 @@ router.post('/', (req, res, next) => {
 
 });
 
+router.post('/reset', (req, res, next) => {
+  const userId = req.user.id;
+
+  User.findById(userId)
+    .populate('questions.qData')
+    .then(user => {
+      let questions = user.questions;
+      questions.forEach(function(x) {
+        x.solved = false;
+      });
+      return user.save();
+    })
+    .then(() => res.status(200).json({}));
+});
+
 module.exports = router;
