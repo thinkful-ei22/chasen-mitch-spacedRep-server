@@ -106,6 +106,7 @@ router.post('/', (req, res, next) => {
 
 });
 
+// reset all questions to unsolved and memValue = 1
 router.post('/reset', (req, res, next) => {
   const userId = req.user.id;
 
@@ -115,12 +116,13 @@ router.post('/reset', (req, res, next) => {
       let questions = user.questions;
       questions.forEach(function(x) {
         x.solved = false;
+        x.memValue = 1;
       });
       return user.save();
     })
     .then(user => {
       let solved = user.questions.map(a => a.solved);
-      res.status(200).json(solved);
+      res.status(200).json({solved,user});
     });
 });
 
