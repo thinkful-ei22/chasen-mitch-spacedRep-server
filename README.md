@@ -13,6 +13,30 @@ Client-side repo:
 Server-side repo:
 **https://github.com/thinkful-ei22/chasen-mitch-spacedRep-server**
 
+## Tech Stack
+
+#### Front-end technologies
+* ReactJs, Redux, CSS
+#### Server technologies​
+* NodeJs, JWT auth, Express
+#### Data Persistence
+* Mongo/Mongoose
+#### Hosting/SaaS
+* Heroku (client & api)
+#### ​Development Environment
+* Managed through Trello
+* Sublime3, VS Code
+* Postman
+#### Data Persistence
+* MongoDB
+#### Hosting
+* Heroku (client & api)
+
+## Additional Features Coming Soon
+
+* Detailed progress summary
+* Leaderboard with top scoring users
+* Loyalty rewards for high Sscores 
 ## Routes
 
 #### POST /api/users/
