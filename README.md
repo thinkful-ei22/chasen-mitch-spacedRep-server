@@ -1,45 +1,138 @@
-# Thinkful Backend Template
+## DATA STRUCTURES LEARNING TOOL 
 
-A template for developing and deploying Node.js apps.
+This application helps to solve the problem of learning new terminology by using a spaced-repetition algorithm learning technique that incorporates increasing intervals of time between subsequent review of previously learned material in order to exploit the psychological spacing effect. The application allows individual users to create their own account and tracks their progress through the content. Also included is a reset button to allow the user to start back at the beginning of the content at any time and reset their progress.
 
-## Getting started
+## Deployed Version & Repos
 
-### Setting up a project
+Deployed Version:
+**https://chasen-mitch-spacedrep-client.herokuapp.com**
 
-* Move into your projects directory: `cd ~/YOUR_PROJECTS_DIRECTORY`
-* Clone this repository: `git clone https://github.com/Thinkful-Ed/backend-template YOUR_PROJECT_NAME`
-* Move into the project directory: `cd YOUR_PROJECT_NAME`
-* Install the dependencies: `npm install`
-* Create a new repo on GitHub: https://github.com/new
-    * Make sure the "Initialize this repository with a README" option is left unchecked
-* Update the remote to point to your GitHub repository: `git remote set-url origin https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME`
+Client-side repo:
+**https://github.com/thinkful-ei22/chasen-mitch-spacedRep-client**
 
-### Working on the project
+Server-side repo:
+**https://github.com/thinkful-ei22/chasen-mitch-spacedRep-server**
 
-* Move into the project directory: `cd ~/YOUR_PROJECTS_DIRECTORY/YOUR_PROJECT_NAME`
-* Run the development task: `npm start`
-    * Starts a server running at http://localhost:8080
-    * Automatically restarts when any of your files change
+## Routes
 
-## Databases
+#### POST /api/users/
 
-By default, the template is configured to connect to a MongoDB database using Mongoose.  It can be changed to connect to a PostgreSQL database using Knex by replacing any imports of `db-mongoose.js` with imports of `db-knex.js`, and uncommenting the Postgres `DATABASE_URL` lines in `config.js`.
+*This route to create a user*
 
-## Deployment
+Params:
+* firstName: string
+* username: string
+* password: string
+* email: string
 
-Requires the [Heroku CLI client](https://devcenter.heroku.com/articles/heroku-command-line).
+**Request**
+```
+{
+  "firstName": string,
+  "username": string,
+  "password": string,
+  "email": string
+}
+```
 
-### Setting up the project on Heroku
+**Response**
 
-* Move into the project directory: `cd ~/YOUR_PROJECTS_DIRECTORY/YOUR_PROJECT_NAME`
-* Create the Heroku app: `heroku create PROJECT_NAME`
+201 on success, 422 on error
 
-* If your backend connects to a database, you need to configure the database URL:
-    * For a MongoDB database: `heroku config:set DATABASE_URL=mongodb://USERNAME:PASSWORD@HOST:PORT/DATABASE_NAME`
-    * For a PostgreSQL database: `heroku config:set DATABASE_URL=postgresql://USERNAME:PASSWORD@HOST:PORT/DATABASE_NAME`
+#### POST /api/auth/login
 
-* If you are creating a full-stack app, you need to configure the client origin: `heroku config:set CLIENT_ORIGIN=https://www.YOUR_DEPLOYED_CLIENT.com`
+*This route is for logging in and retrieving auth token.*
 
-### Deploying to Heroku
+#### POST /api/auth/refresh
 
-* Push your code to Heroku: `git push heroku master`
+*This route is for refreshing auth token.* 
+
+#### GET /api/questions/
+
+*This route gets question at the head of the list.*
+
+Params:
+* user.id: string
+
+**Request**
+```
+{
+  "user.id": string
+}
+```
+
+**Response**
+```
+{
+    "question": "_________ is a method of solving problems that involves a function calling itself.",
+    "answer": "recursion",
+    "explanation": "In each call, it breaks down the problem into smaller and smaller subproblems until you get to a small enough problem that it can be solved trivially. You can think of it as the process of defining a problem (or the solution to a problem) in terms of (a simpler version of) itself. It may be applied to several data structures and algorithms to solve problems, but by itself is not a data structure or an algorithm, it is a concept.",
+    "id": "5b9bc7d05779c62defd5b78f"
+}
+```
+
+#### GET /api/questions/all
+
+*This route is to retrieve all questions in the list.*
+
+Params:
+* user.id: string
+
+**Request**
+```
+{
+  "user.id": string
+}
+```
+
+**Response**
+```
+[
+  {
+    "question": "_________ is a method of solving problems that involves a function calling itself.",
+    "answer": "recursion",
+    "explanation": "In each call, it breaks down the problem into smaller and smaller subproblems until you get to a small enough problem that it can be solved trivially. You can think of it as the process of defining a problem (or the solution to a problem) in terms of (a simpler version of) itself. It may be applied to several data structures and algorithms to solve problems, but by itself is not a data structure or an algorithm, it is a concept.",
+    "id": "5b9bc7d05779c62defd5b78f"
+  }
+]
+```
+
+#### POST /api/questions/
+
+*This route is to post answers to questions.*
+
+Params:
+* user.id: string
+* guess: string
+
+**Request**
+```
+{
+  "user.id": string,
+  "guess": string
+}
+```
+
+
+**Response**
+
+Returns 200 on success, returns feedback based on correct/incorrect answer
+
+#### POST /api/questions/reset
+
+*This route resets the answers for the entire set for the logged in user.*
+
+Params:
+* user.id: string
+
+**Request**
+```
+{
+  "user.id": string
+}
+```
+
+
+**Response**
+
+Returns 200 on success
